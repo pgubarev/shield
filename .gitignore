@@ -1,0 +1,42 @@
+# dependencies
+.venv
+
+# Local configs and local runs configs
+pyrightconfig.json
+
+*.pyc
+*.pyo
+__pycache__
+
+# Tests and test reports
+src/xunit.xml
+/coverage
+*/htmlcov
+src/artifacts/
+artifacts/
+htmlcov/
+
+.tox/
+.nox/
+.coverage
+.coverage.*
+*.coverage
+coverage.xml
+xunit.xml
+.cache
+nosetests.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# misc
+.DS_Store
+
+.vscode
+.idea
+.history
+.swp
+
+.~lock*#
