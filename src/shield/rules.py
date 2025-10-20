@@ -29,7 +29,7 @@ class Rule:
 
             return other
 
-        new_rule = lambda instance, context: (
+        new_rule = lambda instance, context: (  # noqa
             self(instance, context) and other(instance, context)
         )
         return self.__class__(new_rule)
@@ -49,13 +49,13 @@ class Rule:
 
             return other
 
-        new_rule = lambda instance, context: (
+        new_rule = lambda instance, context: (  # noqa
             self(instance, context) or other(instance, context)
         )
         return self.__class__(new_rule)
 
     def __invert__(self):
-        new_rule = lambda instance, context: not self(instance, context)
+        new_rule = lambda instance, context: not self(instance, context)  # noqa
         return self.__class__(new_rule)
 
 
