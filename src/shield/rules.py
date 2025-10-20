@@ -1,5 +1,7 @@
 __all__ = ("Rule", "ConstantRuleValue", "as_constant", "rule")
 
+from typing import Any
+
 from shield.type_annotations import TContext, TRuleFunction
 
 
@@ -9,8 +11,8 @@ class Rule:
     def __init__(self, function: TRuleFunction):
         self._function: TRuleFunction = function
 
-    def __call__(self, context: TContext) -> bool:
-        return self._function(context)
+    def __call__(self, instance: Any, context: TContext) -> bool:
+        return self._function(instance, context)
 
     def __and__(
         self,
@@ -20,14 +22,17 @@ class Rule:
             # Если other это False, то нет смысла выполнять условие,
             # общий результат всегда будет False.
             # Если other это True, то нет смысла производить комбинирование,
-            # общий результат будет зависить от результата выполнения
+            # общий результат будет зависеть от результата выполнения
             # текущего условия
             if other:
                 return self
 
             return other
 
-        return self.__class__(lambda context: self(context) and other(context))
+        new_rule = lambda instance, context: (
+            self(instance, context) and other(instance, context)
+        )
+        return self.__class__(new_rule)
 
     def __or__(
         self,
@@ -44,10 +49,14 @@ class Rule:
 
             return other
 
-        return self.__class__(lambda context: self(context) or other(context))
+        new_rule = lambda instance, context: (
+            self(instance, context) or other(instance, context)
+        )
+        return self.__class__(new_rule)
 
     def __invert__(self):
-        return self.__class__(lambda context: not self(context))
+        new_rule = lambda instance, context: not self(instance, context)
+        return self.__class__(new_rule)
 
 
 class ConstantRuleValue:
@@ -57,7 +66,7 @@ class ConstantRuleValue:
     def __init__(self, value: bool):
         self._value: bool = value
 
-    def __call__(self, context: TContext) -> bool:
+    def __call__(self, instance: Any, context: TContext) -> bool:
         return self._value
 
     def __and__(

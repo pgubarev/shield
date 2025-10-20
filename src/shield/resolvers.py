@@ -59,7 +59,7 @@ class Resolver[TResolverInstanceObject]:
         rule = self._rules[permission]
 
         if not isinstance(rule, bool):
-            return rule(self._context)
+            return rule(self._instance, self._context)
 
         return rule
 
@@ -73,9 +73,11 @@ class Resolver[TResolverInstanceObject]:
 
         permissions: list[str] = []
         for permission, rule in self._rules.items():
-            has_permission = (rule(self._context)
-                              if not isinstance(rule, bool)
-                              else rule)
+            has_permission = (
+                rule(self._instance, self._context)
+                if not isinstance(rule, bool)
+                else bool(rule)
+            )
 
             if has_permission:
                 permissions.append(permission)

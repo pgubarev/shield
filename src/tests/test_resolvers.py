@@ -1,26 +1,25 @@
 from shield.resolvers import Resolver
-from shield.rules import Rule
+from shield.rules import ConstantRuleValue, Rule
 from shield.type_annotations import TDefinedRules
 
 
 class FakeResolver(Resolver):
-
     def define_rules(self) -> TDefinedRules:
         is_staff_or_superuser = Rule(
-            lambda context: context.is_staff or context.is_superuser,
+            lambda instance, context: (
+                context.is_staff or context.is_superuser
+            ),
         )
         can_read_documentation = (
             is_staff_or_superuser |
-            Rule(lambda context: context.read_operations_allowed)
+            Rule(lambda instance, context: context.read_operations_allowed)
         )
 
         return {
+            "profile.read": ConstantRuleValue(True),
             "documents.read": can_read_documentation,
             "documents.create": is_staff_or_superuser,
         }
-
-    def define_attributes(self) -> TDefinedRules:
-        return {}
 
 
 def test_has_permission():
@@ -33,3 +32,6 @@ def test_has_permission():
 
     has_permission = resolver.has_permission("documents.create")
     assert not has_permission
+
+    has_permission = resolver.has_permission("profile.read")
+    assert has_permission

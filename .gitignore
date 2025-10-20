@@ -6,7 +6,6 @@ pyrightconfig.json
 
 *.pyc
 *.pyo
-__pycache__
 
 # Tests and test reports
 src/xunit.xml

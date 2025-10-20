@@ -12,7 +12,7 @@ class TContextProtocol(Protocol):
 
 TContext = TypeVar("TContext", bound=TContextProtocol)
 
-TRuleFunction = Callable[[TContext], bool]
+TRuleFunction = Callable[[Any, TContext], bool]
 TDefinedRules = dict[str, TRuleFunction | bool]
 TResolvedRulesSet = list[str]
 

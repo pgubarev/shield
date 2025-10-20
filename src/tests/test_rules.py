@@ -21,7 +21,7 @@ def test_rule_decorator():
     mock_function = Mock(return_value=False)
 
     decorated = rule(mock_function)
-    result = decorated(None)
+    result = decorated(None, None)
 
     assert not result
     assert mock_function.called
