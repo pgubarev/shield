@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "shield"
+version = "0.1.0"
+description = ""
+authors = []
+readme = "README.md"
+packages = [{include = "shield"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "*"
+pytest = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+line_length = 80
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+multi_line_output = 3
+profile = "black"
+src_paths = "."
+lines_after_imports = 2
+
+
+[tool.pytest.ini_options]
+addopts = "--failed-first --new-first -vvv"

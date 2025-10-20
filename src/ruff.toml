@@ -1,0 +1,72 @@
+# Версии python 3.12 -> py312
+target-version = "py312"
+
+src = ["."]
+
+# Ограничение длины строки
+line-length = 80
+
+# Исключения
+exclude = [
+    "eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".tox",
+    ".venv",
+    ".pyc",
+    ".pyi",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+]
+
+[lint]
+fixable = ["ALL"]
+unfixable = []
+
+# Включенные плагины
+select = [
+    "F",   # pyflakes
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "UP",  # pyupgrade
+    "I",   # isort
+    "S",   # flake-bandit
+    "C90", # mccabe
+    "N",   # pep8-naming
+    "C4",  # flake8-comprehensions
+    "B",   # flake8-bugbear
+    "BLE", # flake8-blind-except
+    "T20", # flake8-print
+    "Q",   # flake8-quotes
+    "PIE", # flake8-pie
+]
+extend-select = ["N", "T"]
+ignore = ["PT001", "PT023", "E203"]
+
+[lint.per-file-ignores]
+"test_*.py" = ["S101", "E501", "ANN201"]
+"__init__.py" =  ["F401", "F403"]
+"exceptions.py" = ["N818"]
+"urls.py" = ["E501"]
+"conf/settings/*.py" = ["E501"]
+"./conf/settings/*.py" = ["E501"]
+"notifications/widget.py" = ["E501"]
+"./notifications/widgets.py" = ["E501"]
+"./app/notifications/widgets.py" = ["E501"]
+"conf/settings/dev.py" = ["S105"]
+"./conf/settings/dev.py" = ["S105"]
+"conf/runners.py" = ["C901"]
+"./conf/runners.py" = ["C901"]
+
+[lint.isort]
+combine-as-imports = true
+known-third-party = ["pytest"]
+section-order = ["future", "standard-library", "third-party", "samolet", "first-party", "local-folder"]
+
+[lint.mccabe]
+# Настройка максимальной сложности
+max-complexity = 7
